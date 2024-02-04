@@ -1,0 +1,262 @@
+/*
+---------------------------------------------------------------------------
+Classes are used to create objects, which are used to store data and
+perform actions on the data:
+- Methods are used to perform actions on the data stored in the object.
+- Attributes are used to store data in the object.
+
+Method overriding is used to override the method in the parent class
+with a method in the child class, so that the method in the child class
+is used instead of the method in the parent class
+
+Inheritance is used to inherit the properties of the parent class,
+whereby a person can use the methods configured in the parent/super class
+and can also use the methods configured in the child/sub class
+
+Encapsulation is used to hide the data from the user, so that the user
+cannot access the data directly, but can only access the data through
+the methods configured in the class
+---------------------------------------------------------------------------
+*/
+
+/*
+class Plant:    // Classes
+    private Flower     // Attributes
+    private Evergreen   // Encapsulation
+    private Height
+
+    public function new (newFlower, newEvergreen){     // Methods
+        Flower = newFlower
+        Evergreen = newEvergreen
+        Height = 0
+    }
+    end procedure
+    
+    public procedure getFlower() {
+        return Flower
+    }
+    end procedure
+    public procedure getIsEvergreen() {
+        return Evergreen
+    }
+    end procedure
+endClass
+
+plantOne = new Plant("Rose", true)
+plantTwo = new Plant("Oak", false)
+
+
+class Person:
+    private Name
+    private Age
+    private Address
+
+    public function new (newName, newAge, newAddress){
+        Name = newName
+        Age = newAge
+        Address = newAddress
+    }
+    end procedure
+    
+    public procedure getName() {
+        return Name
+    }
+    end procedure
+    public procedure getAge() {
+        return Age
+    }
+    end procedure
+    public procedure getAddress() {
+        return Address
+    }
+    end procedure
+
+
+
+class Employee inherits Person:    // Inheritance
+    private Salary
+    private JobTitle
+
+    public function new (newName, newAge, newAddress, newSalary, newJobTitle){
+        super(newName, newAge, newAddress)
+        Salary = newSalary
+        JobTitle = newJobTitle
+    }
+    end procedure
+
+    public procedure getSalary() {
+        return Salary
+    }
+    end procedure
+    public procedure getJobTitle() {
+        return JobTitle
+    }
+    end procedure
+
+Emp1 = Employee("John", 25, "123 Main St", 50000, "Manager")
+
+
+
+class Bird:
+    private Weight
+    private Colour
+    private Age
+
+    public function new (newWeight, newColour, newAge){
+        Weight = newWeight
+        Colour = newColour
+        Age = 0
+    }
+    end procedure
+
+    public procedure getWeight() {
+        return Weight
+    }
+    end procedure
+
+    public procedure getColour() {
+        return Colour
+    }
+    end procedure
+
+    public procedure setWeight(newWeight) {
+        Weight = newWeight
+    }
+    end procedure
+
+    public procedure setColour(newColour) {
+        Colour = newColour
+    }
+    end procedure
+
+
+class Chicken inherits Person:
+    private EggsPerWeek
+
+    public function new getEggs() {
+        return EggsPerWeek
+    }
+    end procedure
+
+    public procedure setEggs(newEggs) {
+        EggsPerWeek = newEggs
+    }
+    end procedure
+
+
+
+
+class Pet{
+	private Type
+	private Name
+	private Age
+
+	public procedure new(newType, newName){
+		Type = newType
+		Name = newName
+		Age = 0
+    end procedure
+    }
+
+    public procedure setName(newName){
+        Name = newName
+    }
+    end function
+
+    public function getName(){
+        return Name
+    }
+    end function
+
+    public function getAge(){
+        return Age
+    }
+    end function
+
+    public procedure addYear(){
+        Age = newAge + 1
+    }
+    end procedure
+}
+
+
+cat1 = new Pet("Cat", "Ginger")
+
+*/
+
+
+class Car{
+
+    private colour
+    private engineSize
+    private numberDoors
+    private miles
+
+    public procedure new(newColour, newEngineSize, newNumberDoors){
+        colour = newColour
+        engineSize = newEngineSize
+        numberDoors = newNumberDoors
+        miles = 0
+    }
+    end procedure
+
+
+    public procedure setColour(newColour){
+        colour = newColour
+    }
+    end procedure
+
+    public function getColour(newColour){
+        return colour
+    }
+    end function
+
+    public procedure addMiles(newMiles){
+        miles = miles + newMiles
+    }
+    end procedure
+
+}
+
+
+/*
+
+Attributes:
+
+Definition: The characteristics or properties that define an object. They represent the data that an object holds.
+Example: In a Person class, attributes might include name, age, and height.
+Declaration: Typically declared within a class using keywords like private or public to control access.
+
+Methods:
+
+Definition: The actions or behaviors that an object can perform. They define what an object can do.
+Example: In a Car class, methods might include start(), stop(), and accelerate().
+Syntax: Often defined within a class using the def keyword (in Python), followed by the method name, parentheses, and the code for the method's behavior.
+
+Constructors:
+
+Definition: Special methods that initialize the attributes of a newly created object. They are called automatically when an object is instantiated.
+Example: A Person constructor might set the initial values for name, age, and birthdate.
+Purpose: Ensure that objects are created in a valid and consistent state.
+
+Inheritance:
+
+Definition: A mechanism that allows a new class (subclass) to inherit the attributes and methods of an existing class (superclass).
+Benefits: Code reuse, establishing hierarchical relationships between classes, and promoting code organization.
+Example: A Student class might inherit from a Person class, automatically gaining the name, age, and other attributes/methods of the Person class.
+
+Encapsulation:
+
+Definition: The principle of bundling data (attributes) and the operations that act on that data (methods) together within a single unit (class).
+Purpose: Protect data integrity, promote modularity, and simplify code complexity.
+Mechanisms: Access specifiers like private and public control how attributes and methods can be accessed from outside the class.
+
+Polymorphism:
+
+Definition: The ability of objects of different classes to respond to the same method call in different ways.
+Implementation: Often achieved through method overriding, where a subclass redefines a method inherited from its superclass.
+Advantages: Flexible and adaptable code, often used in areas like user interface design and game development.
+
+
+
+*/
