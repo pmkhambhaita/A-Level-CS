@@ -2,6 +2,7 @@ def binary_search(arr, low, high, x):
     print("Start: ")
     for index in range(low, high + 1):
         print(arr[index], end=" ")
+    print("\n")
     if high >= low:
         mid = (high + low) // 2
         if arr[mid] == x:
@@ -13,4 +14,9 @@ def binary_search(arr, low, high, x):
     else:
         return -1
 
-binary_search([2, 3, 4, 10, 40], 0, 4, 10)
+arr = [2, 3, 4, 10, 40]
+x = 10
+
+result = binary_search(arr, 0, len(arr) - 1, x)
+
+print("\nElement is present at index %d" % result)
