@@ -136,22 +136,29 @@ marsBarOnline.calc_discount()
 
 """
 
+
 class Pet:
     def __init__(self, name, type):
         self._name = name
         self._age = 0
         self._type = type
+
     def __str__(self):
         return f'{self._name} is {self._age} years old and is a {self._type}'
+
     def get_name(self):
         return self._name
+
     def get_age(self):
         return self._age
+
     def set_name(self, name):
         self._name = name
-    def add_year(self, addAge):
-        self._age = self._age + addAge
+
+    def add_year(self, addage):
+        self._age = self._age + addage
         return self._age
+
 
 apr = Pet('Apricot', 'hamster')
 
