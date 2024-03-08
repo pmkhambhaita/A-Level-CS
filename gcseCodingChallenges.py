@@ -10,7 +10,7 @@ print(bigString)
 number = int(input("Enter a number: "))
 
 def checkNumber():
-    if number < 0 or number > 9:
+    if number <= 0 or number >= 9:
         print("Error")
     else:
         print("OK")
@@ -50,10 +50,29 @@ students = [
 ]
 
 for i in range(0, 3):
-    print(students[i][0], end=" ")
-    print(students[i][1], end=" ")
-    print(students[i][2], end=" ")
+    print("Name: " + str(students[i][0]), end="")
+    print(", Maths Score: " + str(students[i][1]), end="")
+    print(", Science Score: " + str(students[i][2]), end="")
+    print("\n")
+
+for i in range(0, 3):
+    if i == 1:
+        continue
+    print("Name: " + str(students[i][0]), end="")
+    print(", Science Score: " + str(students[i][2]), end="")
     print("\n")
 
 tom = students[1]
 print(tom)
+
+for i in range(0,3):
+    print(students[i][0], end=" ")
+    print("\n")
+
+nameIn = input("Enter a name: ")
+for i in range(0,3):
+    if nameIn == students[i][0]:
+        print(students[i][0], end=" ")
+        print(students[i][1], end=" ")
+        print(students[i][2], end=" ")
+        print("\n")
