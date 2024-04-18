@@ -26,6 +26,18 @@
 
     </style>
 </head>
+
+<script>
+
+    function picswitchJacket() {
+        document.getElementById("paddle").src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-88QiHMkChtQ-Gnbsi7VSEcg6UUcSgPOAXUxUF3pc9jJvrmTnUOs4N574GxfCBNEZ9hg&usqp=CAU";
+    }
+
+    function picswitchPaddle() {
+        document.getElementById("paddle").src = "https://rnli.org/-/media/rnli/images/safety/choose_your_activity/stand_up_paddle_boarding/stand_up_paddleboarders_rnli_nathan_williams_1500x844_cw_protected.jpg?rev=e38110812cb94ec796cf6122fe3146f7&w=920&h=518&hash=7EA98E9AFB18B64A20A2C9BEE5090672";
+    }
+</script>
+
 <body>
     <h1>All about paddleboards</h1>
     
@@ -46,8 +58,17 @@
 
     <h2>Where can I find out more?</h2>
 
-    <p>You can go to https://www.paddleuk.org.uk <a href="Click here">https://www.paddleuk.org.uk</a> to go to the site.</p>
+    <p>You can go to https://www.paddleuk.org.uk <a href="Click here"> https://www.paddleuk.org.uk</a> to go to the site.</p>
 
-    <img src="https://rnli.org/-/media/rnli/images/safety/choose_your_activity/stand_up_paddle_boarding/stand_up_paddleboarders_rnli_nathan_williams_1500x844_cw_protected.jpg?rev=e38110812cb94ec796cf6122fe3146f7&w=920&h=518&hash=7EA98E9AFB18B64A20A2C9BEE5090672" alt="" width="300" height="200">
+    <img id = 'paddle' src="https://rnli.org/-/media/rnli/images/safety/choose_your_activity/stand_up_paddle_boarding/stand_up_paddleboarders_rnli_nathan_williams_1500x844_cw_protected.jpg?rev=e38110812cb94ec796cf6122fe3146f7&w=920&h=518&hash=7EA98E9AFB18B64A20A2C9BEE5090672" alt="" width="300" height="200">
+
+    <button onclick="picswitchPaddle()">
+        Paddleboard 
+    </button>
+
+    <button onclick='picswitchJacket()'>
+        Lifejacket
+    </button> 
+
 </body>
 </html>
