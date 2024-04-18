@@ -1,15 +1,10 @@
-// var products = ['Printer', 'Tablet','Router']
-// products.sort();
-// console.log(products);
-// console.log(products.length);
-
+var redLight = document.getElementById('red');
+var yellowLight = document.getElementById('yellow');
+var greenLight = document.getElementById('green');
 var currentLight = 'red';
+var intervalId;
 
 function changeLight() {
-    var redLight = document.getElementById('red');
-    var yellowLight = document.getElementById('yellow');
-    var greenLight = document.getElementById('green');
-
     redLight.style.background = 'white';
     yellowLight.style.background = 'white';
     greenLight.style.background = 'white';
@@ -25,3 +20,10 @@ function changeLight() {
         currentLight = 'red';
     }
 }
+
+document.getElementById('button').addEventListener('click', function() {
+    if (intervalId) {
+        clearInterval(intervalId); // stop the current cycle if it's running
+    }
+    intervalId = setInterval(changeLight, 1000); // start a new cycle
+});
