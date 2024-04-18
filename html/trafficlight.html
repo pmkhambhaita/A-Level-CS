@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traffic Light</title>
+    <style>
+        button {
+            margin-bottom: 20px; /* Adjust this value to increase or decrease the space */
+        }
+
+        .light {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        #red {
+            background: red;
+        }
+
+        #yellow {
+            background: white;
+        }
+
+        #green {
+            background: white;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="changeLight()">Change Light</button>
+        <div id="red" class="light"></div>
+        <div id="yellow" class="light"></div>
+        <div id="green" class="light"></div>
+    </div>
+
+    <script src="trafficlight.js"></script>
+</body>
+</html>
