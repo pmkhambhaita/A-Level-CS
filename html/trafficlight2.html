@@ -2,13 +2,15 @@
 <html>
 <head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f4f4f4, #bec3c7);
+            font-family: 'Roboto', sans-serif;
         }
         .light {
             width: 50px;
@@ -27,20 +29,26 @@
             border-radius: 10px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeIn 1s;
         }
         #button {
             padding: 10px 20px;
             margin-top: 20px;
             border: none;
             border-radius: 5px;
-            background-color: #007BFF;
+            background: linear-gradient(to right, #007BFF, #0096FF);
             color: white;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         #button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(to right, #0056b3, #007BFF);
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
         }
     </style>
 </head>

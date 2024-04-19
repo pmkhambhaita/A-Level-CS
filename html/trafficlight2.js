@@ -23,18 +23,18 @@ function changeLight() {
     redLight.style.background = 'red';
     yellowLight.style.background = 'yellow';
 
-    sleep(1000).then(() => {
+    sleep(2000).then(() => {
         redLight.style.background = 'white';
         yellowLight.style.background = 'white';
         greenLight.style.background = 'green';
     });
 
-    sleep(2000).then(() => {
+    sleep(6000).then(() => {
         greenLight.style.background = 'white';
         yellowLight.style.background = 'yellow';
     });
 
-    sleep(3000).then(() => {
+    sleep(8000).then(() => {
         yellowLight.style.background = 'white';
         redLight.style.background = 'red';
     });
