@@ -5,11 +5,23 @@ var currentLight = 'red';
 var intervalId;
 var timeoutId;
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function exampleFunction() {
+    console.log('Before sleep');
+    await sleep(2000);
+    console.log('After sleep');
+}
+
 function resetLights() {
-    redLight.style.background = 'white';
+    redLight.style.background = 'red';
     yellowLight.style.background = 'white';
     greenLight.style.background = 'white';
 }
+
+resetLights();
 
 function changeLight() {
     resetLights();
@@ -18,9 +30,13 @@ function changeLight() {
         yellowLight.style.background = 'yellow';
         currentLight = 'yellow';
     } else if (currentLight === 'yellow') {
+        redLight.style.background = 'white';
         greenLight.style.background = 'green';
         currentLight = 'green';
-    } else {
+    } else if (currentLight === 'green'){
+        greenLight.style.background = 'white';
+        yellowLight.style.background = 'yellow';
+        sleep(1000);
         redLight.style.background = 'red';
         currentLight = 'red';
     }
