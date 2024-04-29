@@ -14,8 +14,8 @@ def binary_search(arr, low, high, x):
     else:
         return -1
 
-arr = [2, 3, 4, 10, 40]
-x = 10
+arr = [1,3,4,5,7,8,12,14,15,17,19]
+x = 3
 
 result = binary_search(arr, 0, len(arr) - 1, x)
 
