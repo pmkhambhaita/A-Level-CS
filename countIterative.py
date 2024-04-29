@@ -1,5 +1,7 @@
 def doStuff(x):
     
     while x > 0:
-        x = x - 2
         print(x)
+        x = x - 2
+
+doStuff(10)
