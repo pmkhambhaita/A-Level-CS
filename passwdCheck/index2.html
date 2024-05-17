@@ -58,6 +58,44 @@
       color: #D93025;
       margin-top: 16px;
     }
+
+    /* Popup styles */
+    #popup {
+      display: none;
+      position: fixed;
+      z-index: 1; /* Sit on top of everything */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+    }
+
+    #popup-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%; /* Popup width */
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #popup-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #popup-close:hover,
+    #popup-close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -69,6 +107,15 @@
     <input type="password" id="password" name="password">
     <button onclick="validateCredentials()">Submit</button>
     <p id="message"></p>
+  </div>
+
+  <div id="popup">
+    <div id="popup-content">
+      <span id="popup-close">&times;</span>
+      <h2>Account Locked</h2>
+      <p>You have exceeded the maximum number of login attempts.</p>
+      <p>Please contact support to regain access.</p>
+    </div>
   </div>
 
   <script>
@@ -102,9 +149,18 @@
         chances = 3; // Reset chances
       }
 
+      // Popup logic
       if (chances === 0) {
-        messageElement.innerHTML = "No more chances left.";
+        const popup = document.getElementById("popup");
+        popup.style.display = "block"; // Show the popup
       }
+
+      // Close button functionality (assuming you have an element with id "popup-close")
+      const closeButton = document.getElementById("popup-close");
+      closeButton.addEventListener("click", function() {
+        popup.style.display = "none"; // Hide the popup on close button click
+        window.close(); // Close the window entirely (optional)
+      });
     }
 
     function validateUsername(username) {
@@ -150,6 +206,9 @@
       }
       return passwordMessage;
     }
+    
   </script>
+    
+
 </body>
 </html>
