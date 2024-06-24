@@ -1,5 +1,4 @@
 import tkinter as tk
-
 # Define the Morse code dictionary
 morse_code = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
@@ -34,6 +33,8 @@ def translate_to_text():
 # Create the tkinter window
 window = tk.Tk()
 window.title("Morse Code Translator")
+window.geometry("400x200")
+window.configure(bg='white')
 
 # Create the input label and entry
 input_label = tk.Label(window, text="Enter text:")
