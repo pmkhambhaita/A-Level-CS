@@ -53,8 +53,6 @@ import tkinter as tk
 from tkinter import messagebox
 import pyperclip  # For clipboard operations, might need to install via pip
 
-# Assuming morse_code dictionary is defined above this code
-
 # Function to translate text to Morse code
 def translate_to_morse():
     text = input_text.get().upper()
@@ -90,11 +88,10 @@ def copy_to_clipboard():
     messagebox.showinfo("Copied", "Text copied to clipboard")
 
 # Create the tkinter window
-# Adjustments start from the creation of the tkinter window
 
 window = tk.Tk()
 window.title("Morse Code Translator")
-window.geometry("400x350")  # Adjusted window size for better layout
+window.geometry("700x350")  # Adjusted window size for better layout
 
 # Create a frame for input elements
 input_frame = tk.Frame(window, padx=10, pady=10)
