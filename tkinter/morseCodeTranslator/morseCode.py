@@ -146,11 +146,11 @@ def save_to_file():
         output_file.write(text)
     messagebox.showinfo("Saved", "The translated text has been saved.")
 
-# Add the save button to the buttons_frame (assuming buttons_frame is already defined)
+# Add the save button to the buttons_frame
 save_button = tk.Button(buttons_frame, text="Save to File", command=save_to_file)
-save_button.grid(row=0, column=4, padx=5, pady=5)  # Adjust the column index based on your layout
+save_button.grid(row=0, column=4, padx=5, pady=5)  # Adjust the column index based on layout
 
-# Ensure the buttons_frame column configuration is updated to include the new button
+# Ensure the buttons_frame column configuration is updated
 buttons_frame.columnconfigure((0, 1, 2, 3, 4), weight=1)
 
 window.mainloop()
