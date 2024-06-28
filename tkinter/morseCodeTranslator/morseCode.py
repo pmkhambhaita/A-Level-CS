@@ -1,5 +1,5 @@
 import tkinter as tk
-import morseFunctions as mf
+
 # Define the Morse code dictionary
 morse_code = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
@@ -128,7 +128,7 @@ translate_to_text_button.grid(row=0, column=1, padx=5, pady=5)
 clear_button = tk.Button(buttons_frame, text="Clear", command=clear_fields)
 clear_button.grid(row=0, column=2, padx=5, pady=5)
 
-copy_button = tk.Button(buttons_frame, text="Copy to Clipboard", command=mf.copy_to_clipboard)
+copy_button = tk.Button(buttons_frame, text="Copy to Clipboard", command=copy_to_clipboard)
 copy_button.grid(row=0, column=3, padx=5, pady=5)
 
 # Ensure the input and output entries expand with the window
