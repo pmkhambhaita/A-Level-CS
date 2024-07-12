@@ -1,31 +1,3 @@
-lights = [False, True, True, False]
-
-while True:
-    lightChoice = int(input('Which light would you like to access (1, 2, 3, 4)? '))
-  
-    if lightChoice in (1, 2, 3, 4):
-        lightChange = input('What would you like to do with the light (check or switch)? ')
-    
-    if lightChange == 'check':
-        if lights[lightChoice - 1]:
-            print('Light is on')
-        else:
-            print('Light is off')
-
-    elif lightChange == 'switch':
-        if lights[lightChoice - 1]:
-            lights[lightChoice - 1] = False
-            print('The light is switched off')
-      
-        else:
-            lights[lightChoice - 1] = True
-            print('The light is switched on')
-    
-    else:
-        print('Invalid input')
-
-
-# Masks
 mask1 = 0b1000
 mask2 = 0b0100
 mask3 = 0b0010
@@ -68,3 +40,26 @@ def show_lights(lights):
     light4 = lights & mask4
 
     return light1, light2, light3, light4
+
+while True:
+    print('1. Light 1')
+    print('2. Light 2')
+    print('3. Light 3')
+    print('4. Light 4')
+    print('5. Show lights')
+    print('6. Exit')
+    lightChoice = int(input('Enter light choice: '))
+    if lightChoice == 6:
+        break
+    elif lightChoice == 5:
+        print(show_lights(lights))
+    else:
+        lightChange = input('Switch on or off: ')
+        if lightChange == 'on':
+            lights = light_on(lights, lightChoice)
+            print('The light is switched on')
+        elif lightChange == 'off':
+            lights = light_on(lights, lightChoice)
+            print('The light is switched off')
+        else:
+            print('Invalid input')
