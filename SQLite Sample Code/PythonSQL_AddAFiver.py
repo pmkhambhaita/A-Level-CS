@@ -11,11 +11,18 @@ cursor = conn.execute ('''\
 
 balances = cursor.fetchall()
 
-for account in balances:   
+print(balances)
+
+for account in balances:
     print(account)
     accountID = account[0]
     balance = float(account[1])
-    balance += 5
+    if (accountID) == 'JBLAcc1001':
+        balance -= 5
+    elif (accountID) == 'JBLAcc1002':
+        balance += 5
+    else:
+        continue
     cursor = conn.execute ('''\
             UPDATE Account SET Balance = ? WHERE AccountID = ?''',(balance,accountID))
 
