@@ -3,6 +3,10 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import threading
+import re
+
+def clean_currency_input(value):
+    return re.sub(r'[^\d.]', '', value)
 
 def get_customer_id(name):
     conn = sqlite3.connect('BankAccounts.db')
@@ -12,27 +16,10 @@ def get_customer_id(name):
     conn.close()
     return result[0] if result else None
 
-def get_balance_by_name(first_name, last_name):
-    conn = sqlite3.connect('BankAccounts.db')
-    c = conn.cursor()
-    c.execute("""
-        SELECT Balance
-        FROM Account
-        JOIN Customer ON Account.CustomerID = Customer.CustomerID
-        WHERE LOWER(Customer.FirstName) = ? AND LOWER(Customer.LastName) = ?
-    """, (first_name.lower(), last_name.lower()))
-    result = c.fetchone()
-    conn.close()
-    return result[0] if result else None
-
 def get_balance_by_id(customer_id):
     conn = sqlite3.connect('BankAccounts.db')
     c = conn.cursor()
-    c.execute("""
-        SELECT Balance
-        FROM Account
-        WHERE CustomerID = ?
-    """, (customer_id,))
+    c.execute("SELECT Balance FROM Account WHERE CustomerID = ?", (customer_id,))
     result = c.fetchone()
     conn.close()
     return result[0] if result else None
@@ -40,8 +27,10 @@ def get_balance_by_id(customer_id):
 def transfer_money():
     sender_input = sender_entry.get().lower()
     receiver_input = receiver_entry.get().lower()
+    amount_input = clean_currency_input(amount_entry.get())
+
     try:
-        amount = float(amount_entry.get())
+        amount = float(amount_input)
         if amount <= 0:
             messagebox.showerror("Error", "Amount must be positive")
             return
@@ -65,6 +54,11 @@ def transfer_money():
 
     if sender_id == receiver_id:
         messagebox.showerror("Error", "Sender and receiver cannot be the same customer")
+        return
+
+    sender_balance = get_balance_by_id(sender_id)
+    if sender_balance is None or sender_balance < amount:
+        messagebox.showerror("Error", "Insufficient funds")
         return
 
     def transfer():
@@ -341,6 +335,13 @@ ttk.Separator(button_frame, orient='horizontal').grid(row=9, columnspan=2, stick
 
 delete_account_button = tk.Button(button_frame, text="Delete Account", command=lambda: window.after(0, prompt_delete_account), bg="red", fg="white")
 delete_account_button.grid(row=10, column=0, columnspan=2, padx=5, pady=5)
+
+# Divider
+ttk.Separator(button_frame, orient='horizontal').grid(row=11, columnspan=2, sticky='ew', pady=10)
+
+# Test button to display all account balances
+test_button = tk.Button(button_frame, text="Display All Account Balances (TEST ONLY)", command=lambda: window.after(0, print_balances))
+test_button.grid(row=12, column=0, columnspan=2, padx=5, pady=5)
 
 # Ensure the input and button frames expand with the window
 input_frame.columnconfigure(1, weight=1)
