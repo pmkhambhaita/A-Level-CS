@@ -1,6 +1,7 @@
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 import threading
 
 def get_customer_id(name):
@@ -62,19 +63,75 @@ def transfer_money():
         messagebox.showerror("Error", "Invalid customer ID or name(s)")
         return
 
-    conn = sqlite3.connect('BankAccounts.db')
-    c = conn.cursor()
+    if sender_id == receiver_id:
+        messagebox.showerror("Error", "Sender and receiver cannot be the same customer")
+        return
 
-    # Debit sender
-    c.execute("UPDATE Account SET Balance = Balance - ? WHERE CustomerID = ?", (amount, sender_id))
-    # Credit receiver
-    c.execute("UPDATE Account SET Balance = Balance + ? WHERE CustomerID = ?", (amount, receiver_id))
+    def transfer():
+        conn = sqlite3.connect('BankAccounts.db')
+        c = conn.cursor()
 
-    conn.commit()
-    conn.close()
+        # Debit sender
+        c.execute("UPDATE Account SET Balance = Balance - ? WHERE CustomerID = ?", (amount, sender_id))
+        # Credit receiver
+        c.execute("UPDATE Account SET Balance = Balance + ? WHERE CustomerID = ?", (amount, receiver_id))
 
-    messagebox.showinfo("Success", "Transfer completed")
-    print_balances()
+        conn.commit()
+        conn.close()
+
+        messagebox.showinfo("Success", "Transfer completed")
+        print_balances()
+
+    prompt_pin_verification(sender_id, transfer)
+
+def prompt_delete_account():
+    def on_submit():
+        account_id = account_id_entry.get().strip()
+        if account_id:
+            delete_account(account_id)
+        delete_window.destroy()
+
+    delete_window = tk.Toplevel(window)
+    delete_window.title("Delete Account")
+    delete_window.geometry("300x150")
+
+    tk.Label(delete_window, text="Account ID:").pack(pady=10)
+    account_id_entry = tk.Entry(delete_window)
+    account_id_entry.pack(pady=5)
+
+    submit_button = tk.Button(delete_window, text="Delete", command=on_submit, bg="red", fg="white")
+    submit_button.pack(pady=10)
+
+def delete_account(account_id):
+    def delete_account_thread():
+        if not account_id:
+            messagebox.showerror("Error", "Account ID is required")
+            return
+
+        conn = sqlite3.connect('BankAccounts.db')
+        c = conn.cursor()
+        c.execute("SELECT CustomerID FROM Account WHERE AccountID = ?", (account_id,))
+        result = c.fetchone()
+        conn.close()
+
+        if result:
+            customer_id = result[0]
+            def delete():
+                conn = sqlite3.connect('BankAccounts.db')
+                c = conn.cursor()
+                c.execute("DELETE FROM Account WHERE AccountID = ?", (account_id,))
+                c.execute("DELETE FROM Customer WHERE CustomerID NOT IN (SELECT CustomerID FROM Account)")
+                conn.commit()
+                conn.close()
+
+                messagebox.showinfo("Success", "Account deleted successfully")
+                print_balances()
+
+            prompt_pin_verification(customer_id, delete)
+        else:
+            messagebox.showerror("Error", "Account ID does not exist")
+
+    threading.Thread(target=delete_account_thread).start()
 
 def print_balances():
     conn = sqlite3.connect('BankAccounts.db')
@@ -98,21 +155,26 @@ def show_customer_balance():
     input_value = customer_name_entry.get().lower()
     if input_value.isdigit():
         customer_id = int(input_value)
+    else:
+        try:
+            first_name, last_name = input_value.split()
+            customer_id = get_customer_id(f"{first_name} {last_name}")
+        except ValueError:
+            messagebox.showerror("Error", "Please enter both first and last names")
+            return
+
+    if customer_id is None:
+        messagebox.showerror("Error", "Customer not found")
+        return
+
+    def show_balance():
         balance = get_balance_by_id(customer_id)
         if balance is not None:
             messagebox.showinfo("Balance", f"Customer ID {customer_id}'s balance: £{balance:.2f}")
         else:
             messagebox.showerror("Error", "Customer not found")
-    else:
-        try:
-            first_name, last_name = input_value.split()
-            balance = get_balance_by_name(first_name, last_name)
-            if balance is not None:
-                messagebox.showinfo("Balance", f"{first_name} {last_name}'s balance: £{balance:.2f}")
-            else:
-                messagebox.showerror("Error", "Customer not found")
-        except ValueError:
-            messagebox.showerror("Error", "Please enter both first and last names")
+
+    prompt_pin_verification(customer_id, show_balance)
 
 def get_next_customer_id():
     conn = sqlite3.connect('BankAccounts.db')
@@ -122,15 +184,28 @@ def get_next_customer_id():
     conn.close()
     return result[0] + 1 if result[0] else 1
 
+def account_id_exists(account_id):
+    conn = sqlite3.connect('BankAccounts.db')
+    c = conn.cursor()
+    c.execute("SELECT 1 FROM Account WHERE AccountID = ?", (account_id,))
+    exists = c.fetchone() is not None
+    conn.close()
+    return exists
+
 def add_account():
     def add_account_thread():
         first_name = first_name_entry.get().strip()
         last_name = last_name_entry.get().strip()
         account_id = account_id_entry.get().strip()
         initial_balance = initial_balance_entry.get().strip()
+        pin = pin_entry.get().strip()
 
-        if not first_name or not last_name or not account_id or not initial_balance:
+        if not first_name or not last_name or not account_id or not initial_balance or not pin:
             messagebox.showerror("Error", "All fields are required")
+            return
+
+        if account_id_exists(account_id):
+            messagebox.showerror("Error", "Account ID already exists")
             return
 
         try:
@@ -143,8 +218,8 @@ def add_account():
 
         conn = sqlite3.connect('BankAccounts.db')
         c = conn.cursor()
-        c.execute("INSERT INTO Customer (CustomerID, FirstName, LastName) VALUES (?, ?, ?)",
-                  (customer_id, first_name, last_name))
+        c.execute("INSERT INTO Customer (CustomerID, FirstName, LastName, PIN) VALUES (?, ?, ?, ?)",
+                  (customer_id, first_name, last_name, pin))
         c.execute("INSERT INTO Account (AccountID, CustomerID, Balance) VALUES (?, ?, ?)",
                   (account_id, customer_id, initial_balance))
         conn.commit()
@@ -155,31 +230,37 @@ def add_account():
 
     threading.Thread(target=add_account_thread).start()
 
-def delete_account():
-    def delete_account_thread():
-        account_id = account_id_entry.get().strip()
+def verify_pin(customer_id, pin):
+    conn = sqlite3.connect('BankAccounts.db')
+    c = conn.cursor()
+    c.execute("SELECT PIN FROM Customer WHERE CustomerID = ?", (customer_id,))
+    result = c.fetchone()
+    conn.close()
+    return result[0] == pin if result else False
 
-        if not account_id:
-            messagebox.showerror("Error", "Account ID is required")
-            return
+def prompt_pin_verification(customer_id, callback):
+    def on_submit():
+        pin = pin_entry.get().strip()
+        if verify_pin(customer_id, pin):
+            callback()
+            pin_window.destroy()
+        else:
+            messagebox.showerror("Error", "Invalid PIN")
 
-        conn = sqlite3.connect('BankAccounts.db')
-        c = conn.cursor()
-        c.execute("DELETE FROM Account WHERE AccountID = ?", (account_id,))
-        c.execute("DELETE FROM Customer WHERE CustomerID NOT IN (SELECT CustomerID FROM Account)")
-        conn.commit()
-        conn.close()
+    pin_window = tk.Toplevel(window)
+    pin_window.title("Enter PIN")
+    pin_window.geometry("300x150")
 
-        messagebox.showinfo("Success", "Account deleted successfully")
-        print_balances()
+    tk.Label(pin_window, text="PIN:").pack(pady=10)
+    pin_entry = tk.Entry(pin_window, show="*")
+    pin_entry.pack(pady=5)
 
-    threading.Thread(target=delete_account_thread).start()
-
-# Existing functions...
+    submit_button = tk.Button(pin_window, text="Submit", command=on_submit)
+    submit_button.pack(pady=10)
 
 window = tk.Tk()
 window.title("Bank Transfer")
-window.geometry("400x600")
+window.geometry("400x700")
 
 # Create frames for better layout
 input_frame = tk.Frame(window, padx=10, pady=10)
@@ -204,20 +285,30 @@ tk.Label(input_frame, text="Amount:").grid(row=2, column=0, sticky='w')
 amount_entry = tk.Entry(input_frame)
 amount_entry.grid(row=2, column=1, sticky='ew')
 
+# Transfer button
+transfer_button = tk.Button(input_frame, text="Transfer", command=lambda: window.after(0, transfer_money))
+transfer_button.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+
+# Divider
+ttk.Separator(input_frame, orient='horizontal').grid(row=4, columnspan=2, sticky='ew', pady=10)
+
 # Balance display
 balance_text = tk.Text(balance_frame, height=10, width=30)
 balance_text.pack(fill='x')
 
-# Buttons
-transfer_button = tk.Button(button_frame, text="Transfer", command=lambda: window.after(0, transfer_money))
-transfer_button.grid(row=0, column=0, padx=5, pady=5)
+# Divider
+ttk.Separator(balance_frame, orient='horizontal').pack(fill='x', pady=10)
 
-tk.Label(button_frame, text="Customer Name or ID:").grid(row=1, column=0, sticky='w')
+# Buttons
+tk.Label(button_frame, text="Customer Name or ID:").grid(row=0, column=0, sticky='w')
 customer_name_entry = tk.Entry(button_frame)
-customer_name_entry.grid(row=1, column=1, sticky='ew')
+customer_name_entry.grid(row=0, column=1, sticky='ew')
 
 show_balance_button = tk.Button(button_frame, text="Show Customer Balance", command=lambda: window.after(0, show_customer_balance))
-show_balance_button.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
+show_balance_button.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+# Divider
+ttk.Separator(button_frame, orient='horizontal').grid(row=2, columnspan=2, sticky='ew', pady=10)
 
 # Add account fields
 tk.Label(button_frame, text="First Name:").grid(row=3, column=0, sticky='w')
@@ -236,11 +327,18 @@ tk.Label(button_frame, text="Initial Balance:").grid(row=6, column=0, sticky='w'
 initial_balance_entry = tk.Entry(button_frame)
 initial_balance_entry.grid(row=6, column=1, sticky='ew')
 
-add_account_button = tk.Button(button_frame, text="Add Account", command=lambda: window.after(0, add_account))
-add_account_button.grid(row=7, column=0, columnspan=2, padx=5, pady=5)
+tk.Label(button_frame, text="PIN:").grid(row=7, column=0, sticky='w')
+pin_entry = tk.Entry(button_frame, show="*")
+pin_entry.grid(row=7, column=1, sticky='ew')
 
-delete_account_button = tk.Button(button_frame, text="Delete Account", command=lambda: window.after(0, delete_account))
-delete_account_button.grid(row=8, column=0, columnspan=2, padx=5, pady=5)
+add_account_button = tk.Button(button_frame, text="Add Account", command=lambda: window.after(0, add_account))
+add_account_button.grid(row=8, column=0, columnspan=2, padx=5, pady=5)
+
+# Divider
+ttk.Separator(button_frame, orient='horizontal').grid(row=9, columnspan=2, sticky='ew', pady=10)
+
+delete_account_button = tk.Button(button_frame, text="Delete Account", command=lambda: window.after(0, prompt_delete_account), bg="red", fg="white")
+delete_account_button.grid(row=10, column=0, columnspan=2, padx=5, pady=5)
 
 # Ensure the input and button frames expand with the window
 input_frame.columnconfigure(1, weight=1)
