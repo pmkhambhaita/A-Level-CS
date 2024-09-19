@@ -13,8 +13,8 @@ def get_balance(customer_name):
 
 def transfer_money():
     def task():
-        sender = sender_entry.get()
-        receiver = receiver_entry.get()
+        sender = sender_entry.get().lower()
+        receiver = receiver_entry.get().lower()
         try:
             amount = float(amount_entry.get())
         except ValueError:
@@ -45,6 +45,7 @@ def transfer_money():
 
         messagebox.showinfo("Success", "Transfer completed")
         print_balances()
+        window.after(5000, clear_balances)  # Schedule clearing balances after 5 seconds
 
     Thread(target=task).start()
 
@@ -62,9 +63,12 @@ def print_balances():
 
     Thread(target=task).start()
 
+def clear_balances():
+    balance_text.delete(1.0, tk.END)
+
 def show_customer_balance():
     def task():
-        customer_name = customer_name_entry.get()
+        customer_name = customer_name_entry.get().lower()
         balance = get_balance(customer_name)
         if balance is not None:
             messagebox.showinfo("Balance", f"{customer_name}'s balance: £{balance:.2f}")
