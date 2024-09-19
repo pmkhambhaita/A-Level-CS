@@ -174,7 +174,9 @@ def show_customer_balance():
         else:
             messagebox.showerror("Error", "Customer not found")
 
-    prompt_pin_verification(customer_id, show_balance)
+    # Only prompt for PIN if the customer exists
+    if customer_id is not None:
+        prompt_pin_verification(customer_id, show_balance)
 
 def get_next_customer_id():
     conn = sqlite3.connect('BankAccounts.db')
