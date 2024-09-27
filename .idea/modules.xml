@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/A-Level-CS.iml" filepath="$PROJECT_DIR$/.idea/A-Level-CS.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/ocr-compsci-project/.idea/ocr-compsci-project.iml" filepath="$USER_HOME$/PycharmProjects/ocr-compsci-project/.idea/ocr-compsci-project.iml" />
     </modules>
   </component>
 </project>

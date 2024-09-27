@@ -5,8 +5,10 @@ from tkinter import ttk
 import threading
 import re
 
+
 def clean_currency_input(value):
     return re.sub(r'[^\d.]', '', value)
+
 
 def get_customer_id(name):
     conn = sqlite3.connect('BankAccounts.db')
@@ -16,6 +18,7 @@ def get_customer_id(name):
     conn.close()
     return result[0] if result else None
 
+
 def get_balance_by_id(customer_id):
     conn = sqlite3.connect('BankAccounts.db')
     c = conn.cursor()
@@ -23,6 +26,7 @@ def get_balance_by_id(customer_id):
     result = c.fetchone()
     conn.close()
     return result[0] if result else None
+
 
 def transfer_money():
     sender_input = sender_entry.get().lower()
@@ -78,6 +82,7 @@ def transfer_money():
 
     prompt_pin_verification(sender_id, transfer)
 
+
 def prompt_delete_account():
     def on_submit():
         account_id = account_id_entry.get().strip()
@@ -96,6 +101,7 @@ def prompt_delete_account():
     submit_button = tk.Button(delete_window, text="Delete", command=on_submit, bg="red", fg="white")
     submit_button.pack(pady=10)
 
+
 def delete_account(account_id):
     def delete_account_thread():
         if not account_id:
@@ -110,6 +116,7 @@ def delete_account(account_id):
 
         if result:
             customer_id = result[0]
+
             def delete():
                 conn = sqlite3.connect('BankAccounts.db')
                 c = conn.cursor()
@@ -126,6 +133,7 @@ def delete_account(account_id):
             messagebox.showerror("Error", "Account ID does not exist")
 
     threading.Thread(target=delete_account_thread).start()
+
 
 def print_balances():
     conn = sqlite3.connect('BankAccounts.db')
@@ -144,6 +152,7 @@ def print_balances():
 
     # Clear the balance display after 5 seconds
     balance_text.after(5000, lambda: balance_text.delete(1.0, tk.END))
+
 
 def show_customer_balance():
     input_value = customer_name_entry.get().lower()
@@ -172,6 +181,7 @@ def show_customer_balance():
     if customer_id is not None:
         prompt_pin_verification(customer_id, show_balance)
 
+
 def get_next_customer_id():
     conn = sqlite3.connect('BankAccounts.db')
     c = conn.cursor()
@@ -180,6 +190,7 @@ def get_next_customer_id():
     conn.close()
     return result[0] + 1 if result[0] else 1
 
+
 def account_id_exists(account_id):
     conn = sqlite3.connect('BankAccounts.db')
     c = conn.cursor()
@@ -187,6 +198,7 @@ def account_id_exists(account_id):
     exists = c.fetchone() is not None
     conn.close()
     return exists
+
 
 def add_account():
     def add_account_thread():
@@ -226,6 +238,7 @@ def add_account():
 
     threading.Thread(target=add_account_thread).start()
 
+
 def verify_pin(customer_id, pin):
     conn = sqlite3.connect('BankAccounts.db')
     c = conn.cursor()
@@ -233,6 +246,7 @@ def verify_pin(customer_id, pin):
     result = c.fetchone()
     conn.close()
     return result[0] == pin if result else False
+
 
 def prompt_pin_verification(customer_id, callback):
     def on_submit():
@@ -253,6 +267,7 @@ def prompt_pin_verification(customer_id, callback):
 
     submit_button = tk.Button(pin_window, text="Submit", command=on_submit)
     submit_button.pack(pady=10)
+
 
 window = tk.Tk()
 window.title("Bank Transfer")
@@ -300,7 +315,8 @@ tk.Label(button_frame, text="Customer Name or ID:").grid(row=0, column=0, sticky
 customer_name_entry = tk.Entry(button_frame)
 customer_name_entry.grid(row=0, column=1, sticky='ew')
 
-show_balance_button = tk.Button(button_frame, text="Show Customer Balance", command=lambda: window.after(0, show_customer_balance))
+show_balance_button = tk.Button(button_frame, text="Show Customer Balance",
+                                command=lambda: window.after(0, show_customer_balance))
 show_balance_button.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
 # Divider
@@ -333,14 +349,16 @@ add_account_button.grid(row=8, column=0, columnspan=2, padx=5, pady=5)
 # Divider
 ttk.Separator(button_frame, orient='horizontal').grid(row=9, columnspan=2, sticky='ew', pady=10)
 
-delete_account_button = tk.Button(button_frame, text="Delete Account", command=lambda: window.after(0, prompt_delete_account), bg="red", fg="white")
+delete_account_button = tk.Button(button_frame, text="Delete Account",
+                                  command=lambda: window.after(0, prompt_delete_account), bg="red", fg="white")
 delete_account_button.grid(row=10, column=0, columnspan=2, padx=5, pady=5)
 
 # Divider
 ttk.Separator(button_frame, orient='horizontal').grid(row=11, columnspan=2, sticky='ew', pady=10)
 
 # Test button to display all account balances
-test_button = tk.Button(button_frame, text="Display All Account Balances (TEST ONLY)", command=lambda: window.after(0, print_balances))
+test_button = tk.Button(button_frame, text="Display All Account Balances (TEST ONLY)",
+                        command=lambda: window.after(0, print_balances))
 test_button.grid(row=12, column=0, columnspan=2, padx=5, pady=5)
 
 # Ensure the input and button frames expand with the window
