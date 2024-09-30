@@ -1,33 +1,34 @@
-
 import sqlite3
+import random
+import string
 
-
+# Connect to the database
 conn = sqlite3.connect('BankAccounts.db')
-
 c = conn.cursor()
 
-# Create table
+# Create tables
 c.execute('''CREATE TABLE Account
-             (AccountID text, CustomerID int,  Balance real)''')
+             (AccountID text, CustomerID int, Balance real)''')
 
-# Insert data
-c.execute("INSERT INTO Account VALUES ('JBLAcc1001',1,35.14)")
-c.execute("INSERT INTO Account VALUES ('JBLAcc1002',2,150.0)")
-c.execute("INSERT INTO Account VALUES ('JBLAcc1003',3,12.75)")
-
-# Create table
 c.execute('''CREATE TABLE Customer
-             (CustomerID int,  FirstName text, LastName text)''')
+             (CustomerID int, FirstName text, LastName text)''')
 
-# Insert data
-c.execute("INSERT INTO Customer VALUES (1,'Bob','Smith')")
-c.execute("INSERT INTO Customer VALUES (2,'Jim','Wilson')")
-c.execute("INSERT INTO Customer VALUES (3,'Willie','Johnson')")
+# Generate random names and account numbers
+first_names = ['John', 'Jane', 'Alex', 'Emily', 'Chris', 'Katie', 'Mike', 'Laura', 'David', 'Sarah']
+last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez']
 
+# Insert data into Customer table
+for i in range(10):
+    c.execute("INSERT INTO Customer VALUES (?, ?, ?)", (i + 1, first_names[i], last_names[i]))
+
+# Insert data into Account table
+for i in range(10):
+    account_id = 'ACC' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    balance = round(random.uniform(10.0, 1000.0), 2)
+    c.execute("INSERT INTO Account VALUES (?, ?, ?)", (account_id, i + 1, balance))
 
 # Save (commit) the changes
 conn.commit()
 
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
+# Close the connection
 conn.close()
