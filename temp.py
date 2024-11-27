@@ -1,69 +1,114 @@
-import cv2
-import mediapipe as mp
+import tkinter as tk
+from tkinter import messagebox
+from heapq import heappop, heappush
 
-# Initialize MediaPipe hands solution
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5,
-                       min_tracking_confidence=0.5)
+def heuristic(a, b):
+    return max(abs(a[0] - b[0]), abs(a[1] - b[1]))  # Chebyshev distance
 
-# Initialize webcam capture
-cap = cv2.VideoCapture(0)
+def solve_warehouse(layout, start_item, end_item):
+    # Parse the layout into a grid
+    grid = [list(map(int, line.split())) for line in layout.strip().split('\n')]
+    rows, cols = len(grid), len(grid[0])
+    
+    # Find the start and end positions
+    start = end = None
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == start_item:
+                start = (r, c)
+            elif grid[r][c] == end_item:
+                end = (r, c)
+    
+    if not start or not end:
+        return None, "Invalid layout: Missing start or end item."
+    
+    # Directions for moving in the grid (right, down, left, up, and diagonals)
+    directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    
+    # A* search to find the shortest path
+    open_set = []
+    heappush(open_set, (0, start))
+    came_from = {}
+    g_score = {start: 0}
+    f_score = {start: heuristic(start, end)}
+    
+    while open_set:
+        _, current = heappop(open_set)
+        
+        if current == end:
+            break
+        
+        for dr, dc in directions:
+            neighbor = (current[0] + dr, current[1] + dc)
+            if 0 <= neighbor[0] < rows and 0 <= neighbor[1] < cols:
+                tentative_g_score = g_score[current] + 1
+                if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g_score
+                    f_score[neighbor] = tentative_g_score + heuristic(neighbor, end)
+                    heappush(open_set, (f_score[neighbor], neighbor))
+    
+    # Reconstruct the path
+    path = []
+    step = end
+    while step in came_from:
+        path.append(step)
+        step = came_from[step]
+    path.append(start)
+    path.reverse()
+    
+    if path[0] == start:
+        for r, c in path:
+            grid[r][c] = '*'
+        return grid, "Path found."
+    else:
+        return None, "No path found."
 
-# Define gesture thresholds
-pinch_in_threshold = 0.5
-pinch_out_threshold = 1.0  # Adjust this threshold as needed
-swipe_threshold = 50
+def display_result(grid, message):
+    result_text.delete(1.0, tk.END)
+    if grid:
+        for line in grid:
+            result_text.insert(tk.END, ' '.join(str(cell) for cell in line) + '\n')
+    result_text.insert(tk.END, message)
 
+def find_path():
+    try:
+        start_item = int(start_entry.get())
+        end_item = int(end_entry.get())
+        grid, message = solve_warehouse(warehouse_layout, start_item, end_item)
+        display_result(grid, message)
+    except ValueError:
+        messagebox.showerror("Invalid input", "Please enter valid integers for start and end items.")
 
-# Define camera control functions
-def zoom(direction):
-    # Implement zoom logic (e.g., adjust camera zoom level)
-    print(f"Zooming {direction}")
+# Example layout
+warehouse_layout = """
+1 2 3 4 5
+6 7 8 9 10
+11 12 13 14 15
+16 17 18 19 20
+21 22 23 24 25
+"""
 
+# Create the main window
+root = tk.Tk()
+root.title("Warehouse Pathfinding")
 
-def pan(direction):
-    # Implement pan logic (e.g., adjust camera pan angle)
-    print(f"Panning {direction}")
+# Create input fields and labels
+tk.Label(root, text="Enter the item you are coming from:").grid(row=0, column=0, padx=10, pady=5)
+start_entry = tk.Entry(root)
+start_entry.grid(row=0, column=1, padx=10, pady=5)
 
+tk.Label(root, text="Enter the item you want to get to:").grid(row=1, column=0, padx=10, pady=5)
+end_entry = tk.Entry(root)
+end_entry.grid(row=1, column=1, padx=10, pady=5)
 
-while True:
-    ret, frame = cap.read()
+# Create a button to find the path
+find_button = tk.Button(root, text="Find Path", command=find_path)
+find_button.grid(row=2, column=0, columnspan=2, pady=10)
 
-    # Convert BGR to RGB for MediaPipe
-    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+# Create a text widget to display the result
+result_text = tk.Text(root, height=10, width=40)
+result_text.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-    # Process the image with MediaPipe
-    results = hands.process(image)
-
-    # Draw hand landmarks and annotations
-    if results.multi_hand_landmarks:
-        for hand_landmarks in results.multi_hand_landmarks:
-            mp.solutions.drawing_utils.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-
-            # Extract relevant landmarks for gesture detection
-            thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
-            index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
-
-            # Calculate distance between thumb and index tips
-            distance = ((thumb_tip.x - index_tip.x) ** 2 + (thumb_tip.y - index_tip.y) ** 2) ** 0.5
-
-            if distance < pinch_in_threshold:
-                zoom("in")
-            elif distance > pinch_out_threshold:
-                zoom("out")
-
-            # Detect swipe gesture (e.g., based on x-axis movement)
-            if abs(thumb_tip.x - index_tip.x) > swipe_threshold:
-                if thumb_tip.x > index_tip.x:
-                    pan("left")  # Adjust pan angle accordingly
-                else:
-                    pan("right")  # Adjust pan angle accordingly
-
-    # Display the processed image
-    cv2.imshow('Frame', image)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()
+# Run the Tkinter event loop
+root.mainloop()
