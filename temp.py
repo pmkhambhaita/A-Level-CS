@@ -64,11 +64,24 @@ def solve_warehouse(layout, start_item, end_item):
     else:
         return None, "No path found."
 
+def draw_warehouse(grid):
+    if not grid:
+        return ""
+    
+    rows, cols = len(grid), len(grid[0])
+    border_top = "+" + "---+" * cols
+    result = border_top + "\n"
+    
+    for row in grid:
+        result += "| " + " | ".join(f"{cell:2}" for cell in row) + " |\n"
+        result += border_top + "\n"
+    
+    return result
+
 def display_result(grid, message):
     result_text.delete(1.0, tk.END)
     if grid:
-        for line in grid:
-            result_text.insert(tk.END, ' '.join(str(cell) for cell in line) + '\n')
+        result_text.insert(tk.END, draw_warehouse(grid))
     result_text.insert(tk.END, message)
 
 def find_path():
@@ -107,7 +120,7 @@ find_button = tk.Button(root, text="Find Path", command=find_path)
 find_button.grid(row=2, column=0, columnspan=2, pady=10)
 
 # Create a text widget to display the result
-result_text = tk.Text(root, height=10, width=40)
+result_text = tk.Text(root, height=15, width=50)
 result_text.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
 # Run the Tkinter event loop
