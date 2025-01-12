@@ -5,5 +5,11 @@ minsPlayed = [
     ['Danny', 0, 60, 20, 15, 45]
 ]
 
-for i in range(4):
-    print(minsPlayed[i][0], minsPlayed[i][1])
+
+for i in range(len(minsPlayed)):
+    total = 0
+    for j in range(1, len(minsPlayed[i])):
+        total += minsPlayed[i][j]
+    print(f'{minsPlayed[i][0]} played for {total} minutes')
+
+       
