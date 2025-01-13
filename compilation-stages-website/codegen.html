@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="comp.css">
+    <title>Code Generation</title>
+</head>
+<body>
+    <h1>Code Generation</h1>
+    <p>Code generation translates the AST, generated in the syntax analysis stage, into low-level intermediate code or directly into machine code that the target processor can understand. This stage bridges the gap between the high-level programming language and the processor's instruction set.</p>
+    
+    <h2>Example:</h2>
+    <p>Continuing with our example, the <code>int score = 75;</code> statement might be translated into assembly language instructions like:</p>
+    <pre><code>
+MOV AX, 75       ; Move the value 75 into register AX
+MOV [score], AX  ; Store the value in AX into the memory location of variable 'score'
+    </code></pre>
+    
+    <h2>Key Tasks of Code Generation:</h2>
+    <ul>
+        <li><strong>Instruction Selection:</strong> Choosing appropriate machine instructions to represent the operations and data manipulations in the AST.</li>
+        <li><strong>Register Allocation:</strong> Assigning processor registers to store variables and intermediate values efficiently.</li>
+        <li><strong>Memory Management:</strong> Determining memory addresses for variables and data structures.</li>
+    </ul>
+    
+    <h2>Examination Technique:</h2>
+    <p>When code generation is assessed:</p>
+    <ul>
+        <li><strong>Demonstrate Instruction Mapping:</strong> Show how high-level language constructs are translated into corresponding machine instructions.</li>
+        <li><strong>Explain Register and Memory Usage:</strong> Justify your choices for register allocation and memory management, considering efficiency and constraints.</li>
+    </ul>
+    
+    <h2>Common Misconceptions:</h2>
+    <ul>
+        <li><strong>Code Generation is Straightforward:</strong> Code generation involves complex decisions regarding instruction selection, register allocation, and memory management to create efficient and correct code.</li>
+        <li><strong>Generated Code is Optimal:</strong> The initially generated code may not be the most efficient; further optimizations are performed in the next stage.</li>
+    </ul>
+    
+    <h2>Prevention Strategies:</h2>
+    <ul>
+        <li><strong>Appreciate Complexity:</strong> Recognize that code generation involves intricate considerations beyond simple instruction-to-instruction mapping.</li>
+        <li><strong>View as an Intermediate Step:</strong> Understand that code generation provides a functional but potentially unoptimized representation of the program.</li>
+    </ul>
+    
+    <h2>Memory Technique:</h2>
+    <p>Imagine code generation as a "translation" stage, like converting a text from one language to another while preserving its meaning.</p>
+    
+    <h2>Synthesis:</h2>
+    <p>Code generation takes the structural representation from the AST and generates a machine-readable version of the program, paving the way for final optimization.</p>
+    
+    <a href="stages.html">Back to Stages of Compilation</a>
+</body>
+</html>

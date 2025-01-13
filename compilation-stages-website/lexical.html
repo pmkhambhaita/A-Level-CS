@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="comp.css">
+    <title>Lexical Analysis</title>
+</head>
+<body>
+    <h1>Lexical Analysis</h1>
+    <img src="lai.png" alt="Lexical Analysis Illustration" class="responsive-img" style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+    <p>Lexical analysis, or scanning, is the first stage of compilation. It involves reading the source code character by character and grouping them into meaningful units called lexemes. These lexemes are then converted into tokens, which represent the basic building blocks of the programming language.</p>
+    
+    <h2>Example:</h2>
+    <p><code>int score = 75;</code></p>
+    <p>This line of code would be broken down into the following lexemes and tokens:</p>
+    
+    <table>
+        <tr>
+            <th>Lexeme</th>
+            <th>Token</th>
+            <th>Token Class</th>
+        </tr>
+        <tr>
+            <td>int</td>
+            <td>[keyword:int]</td>
+            <td>Keyword</td>
+        </tr>
+        <tr>
+            <td>score</td>
+            <td>[identifier:score]</td>
+            <td>Identifier</td>
+        </tr>
+        <tr>
+            <td>=</td>
+            <td>[operator:=]</td>
+            <td>Operator</td>
+        </tr>
+        <tr>
+            <td>75</td>
+            <td>[integer:75]</td>
+            <td>Integer</td>
+        </tr>
+        <tr>
+            <td>;</td>
+            <td>[separator:;]</td>
+            <td>Separator</td>
+        </tr>
+    </table>
+    
+    <h2>Key Tasks of Lexical Analysis:</h2>
+    <ul>
+        <li><strong>Tokenization:</strong> Identifying and categorizing lexemes into tokens.</li>
+        <li><strong>Removal of Whitespace and Comments:</strong> Discarding non-essential elements from the source code.</li>
+        <li><strong>Symbol Table Creation:</strong> Constructing a table to store information about identifiers, such as their names, data types, and memory addresses.</li>
+    </ul>
+    
+    <h2>Examination Technique:</h2>
+    <p>When questions ask about the output of the lexical analysis stage, focus on:</p>
+    <ul>
+        <li><strong>Identifying Tokens:</strong> Demonstrate your understanding by correctly identifying and classifying lexemes into tokens.</li>
+        <li><strong>Symbol Table Representation:</strong> Show how the symbol table would be populated based on the given code snippet.</li>
+    </ul>
+    
+    <h2>Common Misconceptions:</h2>
+    <ul>
+        <li><strong>Lexical Analysis Performs Syntax Checking:</strong> Lexical analysis only focuses on identifying tokens, not their arrangement or grammatical correctness. Syntax checking is done in the next stage.</li>
+        <li><strong>Symbol Table Contains All Information:</strong> The symbol table is initially populated with basic information about identifiers. Data types and addresses may be added in later stages.</li>
+    </ul>
+    
+    <h2>Prevention Strategies:</h2>
+    <ul>
+        <li><strong>Remember the Scope:</strong> Lexical analysis is limited to recognizing individual tokens, not the overall structure of the code.</li>
+        <li><strong>Understand Symbol Table Evolution:</strong> The symbol table is a dynamic structure that evolves as the compilation process progresses.</li>
+    </ul>
+    
+    <h2>Memory Technique:</h2>
+    <p>Think of lexical analysis as a "word-recognizing" stage, analogous to how we read and identify individual words in a sentence.</p>
+    
+    <h2>Synthesis:</h2>
+    <p>Lexical analysis lays the groundwork for subsequent stages by providing a structured representation of the source code in the form of tokens and a preliminary symbol table.</p>
+    
+    <a href="stages.html">Back to Stages of Compilation</a>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="comp.css">
+    <title>Syntax Analysis</title>
+</head>
+<body>
+    <h1>Syntax Analysis</h1>
+    <img src="sai.png" alt="Lexical Analysis Illustration" class="responsive-img" style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+
+    <p>Syntax analysis, or parsing, follows lexical analysis. It takes the stream of tokens generated in the previous stage and checks if they conform to the grammatical rules of the programming language. This involves analyzing the structure and relationships between tokens to ensure they form valid statements and expressions.</p>
+    
+    <h2>Example:</h2>
+    <p>Consider the token stream generated from the previous example:</p>
+    <p><code>[keyword:int] [identifier:score] [operator:=] [integer:75] [separator:;]</code></p>
+    <p>The syntax analyzer would verify that this sequence adheres to the rules for variable declaration, ensuring an identifier follows the keyword "int", an assignment operator follows the identifier, and an integer value follows the assignment operator.</p>
+    
+    <h2>Key Tasks of Syntax Analysis:</h2>
+    <ul>
+        <li><strong>Grammar Checking:</strong> Verifying the token arrangement against the language's grammar rules.</li>
+        <li><strong>Error Detection and Reporting:</strong> Identifying and reporting syntax errors, including incorrect token order or missing components.</li>
+        <li><strong>Abstract Syntax Tree (AST) Creation:</strong> Generating a tree-like representation of the code's structure, capturing the hierarchical relationships between tokens.</li>
+    </ul>
+    
+    <h2>Examination Technique:</h2>
+    <p>When questions involve syntax analysis:</p>
+    <ul>
+        <li><strong>Apply Grammar Rules:</strong> Explicitly demonstrate how the token stream conforms to or violates specific grammar rules.</li>
+        <li><strong>Draw ASTs:</strong> Practice constructing ASTs to visualize the code's structure and show your understanding of the parsing process.</li>
+    </ul>
+    
+    <h2>Common Misconceptions:</h2>
+    <ul>
+        <li><strong>Syntax Errors are the Only Errors:</strong> While syntax analysis catches grammatical errors, other errors like semantic or logic errors are detected in later stages.</li>
+        <li><strong>AST is the Final Code Representation:</strong> The AST is an intermediate representation used for further analysis and transformation in subsequent compilation stages.</li>
+    </ul>
+    
+    <h2>Prevention Strategies:</h2>
+    <ul>
+        <li><strong>Understand Error Categories:</strong> Recognize that syntax analysis primarily addresses grammatical errors, while other error types exist.</li>
+        <li><strong>View AST as a Stepping Stone:</strong> See the AST as a structural foundation for generating and optimizing code in later stages.</li>
+    </ul>
+    
+    <h2>Memory Technique:</h2>
+    <p>Think of syntax analysis as a "grammar-checking" stage, similar to how we check for grammatical correctness when writing.</p>
+    
+    <h2>Synthesis:</h2>
+    <p>Syntax analysis builds upon lexical analysis by ensuring the token stream is grammatically correct and generates the AST, a crucial intermediate representation for further processing.</p>
+    
+    <a href="stages.html">Back to Stages of Compilation</a>
+</body>
+</html>

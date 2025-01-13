@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="comp.css">
+    <title>Code Optimisation</title>
+</head>
+<body>
+    <h1>Code Optimisation</h1>
+    <p>Code optimisation is the final stage of compilation. It focuses on improving the generated code's efficiency without altering its functionality. The goal is to make the program execute faster, consume less memory, or both.</p>
+    
+    <h2>Example:</h2>
+    <p>Consider a loop that repeatedly adds 10 to a variable:</p>
+    <pre><code>
+for (int i = 0; i < 100; i++) {
+    x = x + 10;
+}
+    </code></pre>
+    <p>A simple code generator might produce instructions for each addition within the loop. An optimizer could recognize that the addition can be performed outside the loop, significantly reducing the execution time:</p>
+    <pre><code>
+x = x + (10 * 100); // Calculate the total increment once
+for (int i = 0; i < 100; i++) {
+    // No need to add within the loop
+}
+    </code></pre>
+    
+    <h2>Key Tasks of Code Optimisation:</h2>
+    <ul>
+        <li><strong>Redundant Code Elimination:</strong> Removing unnecessary instructions that do not affect the program's output.</li>
+        <li><strong>Constant Folding:</strong> Performing calculations involving constants during compilation, reducing runtime computations.</li>
+        <li><strong>Loop Optimisation:</strong> Improving loop efficiency by reducing the number of instructions executed within loops.</li>
+    </ul>
+    
+    <h2>Examination Technique:</h2>
+    <p>When addressing code optimization questions:</p>
+    <ul>
+        <li><strong>Identify Optimization Opportunities:</strong> Analyze code snippets and pinpoint areas where optimization techniques can be applied.</li>
+        <li><strong>Explain Optimization Techniques:</strong> Clearly describe the specific techniques used and their impact on the code's efficiency.</li>
+    </ul>
+    
+    <h2>Common Misconceptions:</h2>
+    <ul>
+        <li><strong>Optimization is Always Beneficial:</strong> While optimization aims to improve efficiency, it can sometimes increase compilation time or code complexity.</li>
+        <li><strong>All Code Can be Optimized:</strong> Some code structures might have limited optimization potential due to inherent complexities or dependencies.</li>
+    </ul>
+    
+    <h2>Prevention Strategies:</h2>
+    <ul>
+        <li><strong>Understand Trade-offs:</strong> Recognize that optimization involves trade-offs between execution speed, memory usage, compilation time, and code readability.</li>
+        <li><strong>Know Limitations:</strong> Accept that not all code can be optimized to the same extent.</li>
+    </ul>
+    
+    <h2>Memory Technique:</h2>
+    <p>Think of code optimization as a "fine-tuning" stage, like polishing a finished product to enhance its performance.</p>
+    
+    <h2>Synthesis:</h2>
+    <p>Code optimization builds upon the generated code by applying various techniques to enhance its efficiency, resulting in a final executable program that is both functional and optimized.</p>
+    
+    <a href="stages.html">Back to Stages of Compilation</a>
+</body>
+</html>
