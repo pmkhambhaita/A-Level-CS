@@ -1,4 +1,4 @@
-'''
+"""
 mask1 = 0b1000
 mask2 = 0b0100
 mask3 = 0b0010
@@ -41,7 +41,7 @@ def show_lights(lights):
     light4 = lights & mask4
 
     return light1, light2, light3, light4
-'''
+"""
 
 lights = [False, True, True, False]
 
