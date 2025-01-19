@@ -153,6 +153,5 @@ def caesar_cipher(text, shift):
 
     return result
 
-
 # --- Window closing --- #
 root.mainloop()
