@@ -6,20 +6,20 @@ while True:
     if lightChoice in (1, 2, 3, 4):
         lightChange = input('What would you like to do with the light (check or switch)? ')
     
-    if lightChange == 'check':
-        if lights[lightChoice - 1]:
-            print('Light is on')
-        else:
-            print('Light is off')
+        if lightChange == 'check':
+            if lights[lightChoice - 1]:
+                print('Light is on')
+            else:
+                print('Light is off')
 
-    elif lightChange == 'switch':
-        if lights[lightChoice - 1]:
-            lights[lightChoice - 1] = False
-            print('The light is switched off')
-      
-        else:
-            lights[lightChoice - 1] = True
-            print('The light is switched on')
+        elif lightChange == 'switch':
+            if lights[lightChoice - 1]:
+                lights[lightChoice - 1] = False
+                print('The light is switched off')
+
+            else:
+                lights[lightChoice - 1] = True
+                print('The light is switched on')
     
     else:
         print('Invalid input')
